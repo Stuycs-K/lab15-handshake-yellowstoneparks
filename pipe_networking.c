@@ -10,7 +10,23 @@
   returns the file descriptor for the upstream pipe.
   =========================*/
 int server_setup() {
-  int from_client = 0;
+	int from_client = 0;
+ 
+	if (mkfifo(WKP, 0666) == -1) {
+		perror("bruh");
+		exit(1);
+	}
+ 
+	printf("waiting waiting waiting\n");
+ 
+	from_client = open(WKP, O_RDONLY);
+	if (from_client == -1) {
+		perror("bruh2");
+		exit(1);
+	}
+ 
+	printf("ah a connection");	
+
   return from_client;
 }
 
@@ -25,6 +41,9 @@ int server_setup() {
   =========================*/
 int server_handshake(int *to_client) {
   int from_client;
+
+	from_client = server_setup();
+
   return from_client;
 }
 
