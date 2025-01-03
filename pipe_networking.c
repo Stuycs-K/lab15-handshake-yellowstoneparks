@@ -1,3 +1,4 @@
+#include <time.h>
 #include "pipe_networking.h"
 //UPSTREAM = to the server / from the client
 //DOWNSTREAM = to the client / from the server
@@ -106,7 +107,7 @@ int client_handshake(int *to_server) {
 	write(*to_server, pp_name, strlen(pp_name) + 1);
 	
 	// get the random int from the server
-	int from_server = open(pp_name, O_RDONLY);
+	from_server = open(pp_name, O_RDONLY);
 
 	int rand_int;
 	read(from_server, &rand_int, sizeof(rand_int));
@@ -152,7 +153,7 @@ int server_connect(int from_client) {
   // sending a random int
   srand(time(NULL));
   int rand_int = rand() % 1000;
-  write(*to_client, &rand_int, sizeof(rand_int));
+  write(to_client, &rand_int, sizeof(rand_int));
 
   int ack;
   read(from_client, &ack, sizeof(ack));
